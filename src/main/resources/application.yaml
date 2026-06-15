@@ -1,12 +1,19 @@
 spring:
   application:
     name: stockflow
-    
+
   datasource:
     url: jdbc:h2:mem:inventorydb
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
+    # HikariCP: pool pequeño porque es H2 embebida y solo hay un servicio
+    hikari:
+      maximum-pool-size: 10          # Máximo 10 conexiones concurrentes (suficiente para un solo servicio con pocos usuarios simultáneos)
+      minimum-idle: 2                 # Mantiene 2 conexiones inactivas listas para evitar latencia en picos bajos de tráfico
+      connection-timeout: 30000       # Espera hasta 30s por una conexión antes de lanzar timeout (balance entre paciencia y rapidez)
+      idle-timeout: 600000            # Conexiones inactivas se cierran tras 10min (evita conexiones huérfagas sin reciclar agresivamente)
 
   h2:
     console:
@@ -15,9 +22,9 @@ spring:
 
   jpa:
     defer-datasource-initialization: true
-    
+
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create-drop          # Reinicia esquema en cada inicio (entorno de desarrollo, no apto para producción)
 
     show-sql: true
 
@@ -29,10 +36,33 @@ resilience4j:
   circuitbreaker:
     configs:
       default:
-        sliding-window-size: 10
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
-        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10               # Evalúa fallos en las últimas 10 llamadas (ventana pequeña para detectar degradación rápido)
+        failure-rate-threshold: 50             # Abre el circuito si el 50%+ de llamadas fallan (tolerancia media antes de aislar)
+        wait-duration-in-open-state: 10s       # Espera 10s antes de pasar a half-open (suficiente para que el fallo se recupere sin demorar mucho)
+        permitted-number-of-calls-in-half-open-state: 3   # En half-open prueba con 3 llamadas (muestra mínima representativa sin arriesgar muchas)
     instances:
       alertService:
+        base-config: default
+
+  retry:
+    configs:
+      default:
+        max-attempts: 3                       # Reintenta hasta 3 veces (balance entre resiliencia y no saturar el sistema)
+        wait-duration: 500ms                  # Espera base de 500ms entre reintentos (evita reintentar inmediatamente)
+        enable-exponential-backoff: true      # Duplica espera en cada intento: 500ms → 1s → 2s (evita picos de reintentos simultáneos)
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.lang.Exception
+    instances:
+      movementService:
+        base-config: default
+
+  ratelimiter:
+    configs:
+      default:
+        limit-for-period: 10                  # Máximo 10 peticiones por ventana (protege la base de datos H2 de sobrecarga de consultas)
+        limit-refresh-period: 1s              # Ventana de 1 segundo (control granular segundo a segundo)
+        timeout-duration: 500ms               # Si se excede el límite, espera hasta 500ms por un permiso antes de rechazar (evita rechazos instantáneos en ráfagas cortas)
+    instances:
+      movementHistory:
         base-config: default

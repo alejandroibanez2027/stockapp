@@ -3,8 +3,13 @@ package com.stockflow.stockflow.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 
 import com.stockflow.stockflow.dtos.MovementRequest;
 import com.stockflow.stockflow.entities.Movement;
@@ -21,6 +26,8 @@ import com.stockflow.stockflow.responses.MovementResponse;
 @Transactional
 public class MovementService {
 
+    private static final Logger log = LoggerFactory.getLogger(MovementService.class);
+
     private final MovementRepository movementRepository;
     private final ProductRepository productRepository;
     private final MovementMapper movementMapper;
@@ -32,6 +39,7 @@ public class MovementService {
     }
 
     @Transactional(readOnly = true)
+    @RateLimiter(name = "movementHistory")
     public List<MovementResponse> findByProductId(Long productId) {
 
         Product product = findProduct(productId);
@@ -41,6 +49,7 @@ public class MovementService {
             .collect(Collectors.toList());            
     }
     
+    @Retry(name = "movementService", fallbackMethod = "saveFallback")
     public MovementResponse save(MovementRequest movementRequest) {
 
         Product product = findProduct(movementRequest.getProductId());
@@ -61,6 +70,11 @@ public class MovementService {
     private Product findProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(
             () -> new ProductNotFoundException(productId));
+    }
+
+    public MovementResponse saveFallback(MovementRequest movementRequest, Throwable t) {
+        log.error("Error al registrar movimiento después de reintentos: {}", t.getMessage());
+        throw new RuntimeException("No se pudo registrar el movimiento después de múltiples intentos", t);
     }
 
     private void updateProductStock(Product product, MovementType type, Long quantity) {

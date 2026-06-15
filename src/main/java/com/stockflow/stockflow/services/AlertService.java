@@ -2,6 +2,8 @@ package com.stockflow.stockflow.services;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.stockflow.stockflow.mappers.AlertMapper;
@@ -12,6 +14,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 @Service
 public class AlertService {
+
+    private static final Logger log = LoggerFactory.getLogger(AlertService.class);
 
     private final ProductRepository productRepository;
     private final AlertMapper alertMapper;
@@ -30,6 +34,7 @@ public class AlertService {
     }
 
     public List<StockAlertResponse> getAlertsFallback(Throwable t) {
+        log.warn("Circuit abierto para getAlerts, retornando lista vacía. Causa: {}", t.getMessage());
         return List.of();
     }
 }
