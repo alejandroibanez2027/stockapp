@@ -1,0 +1,25 @@
+package com.stockflow.stockflow.mappers;
+
+import org.springframework.stereotype.Component;
+
+import com.stockflow.stockflow.entities.Product;
+import com.stockflow.stockflow.enums.AlertSeverity;
+import com.stockflow.stockflow.responses.StockAlertResponse;
+
+@Component
+public class AlertMapper {
+
+    public StockAlertResponse toResponse(Product product) {
+        return StockAlertResponse.builder()
+                .productId(product.getProductId())
+                .productName(product.getName())
+                .currentStock(product.getCurrentStock())
+                .minStock(product.getMinStock())
+                .severity(resolveSeverity(product.getCurrentStock()))
+                .build();
+    }
+
+    private AlertSeverity resolveSeverity(Long currentStock) {
+        return currentStock == 0 ? AlertSeverity.CRITICAL : AlertSeverity.LOW;
+    }
+}
