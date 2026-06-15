@@ -19,28 +19,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleProductNotFoundException(ProductNotFoundException ex, WebRequest request) {
-        ErrorResponse body = ErrorResponse.builder()
-                .error(ex.getClass().getSimpleName())
-                .message(ex.getMessage())
-                .path(request.getDescription(false))
-                .status(false)
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(ex, request, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InsufficientStockException.class)
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(InsufficientStockException ex, WebRequest request) {
-        ErrorResponse body = ErrorResponse.builder()
-                .error(ex.getClass().getSimpleName())
-                .message(ex.getMessage())
-                .path(request.getDescription(false))
-                .status(false)
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(ex, request, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -48,28 +32,28 @@ public class GlobalExceptionHandler {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(e -> e.getField() + ": " + e.getDefaultMessage())
                 .collect(Collectors.joining("; "));
-                
-        ErrorResponse body = ErrorResponse.builder()
-                .error(ex.getClass().getSimpleName())
-                .message(message)
-                .path(request.getDescription(false))
-                .status(false)
-                .timestamp(LocalDateTime.now())
-                .build();
-                
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+
+        return buildErrorResponse(ex.getClass().getSimpleName(), message, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex, WebRequest request) {
+        return buildErrorResponse(ex, request, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(Exception ex, WebRequest request, HttpStatus status) {
+        return buildErrorResponse(ex.getClass().getSimpleName(), ex.getMessage(), request, status);
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(String error, String message, WebRequest request, HttpStatus status) {
         ErrorResponse body = ErrorResponse.builder()
-                .error(ex.getClass().getSimpleName())
-                .message(ex.getMessage())
+                .error(error)
+                .message(message)
                 .path(request.getDescription(false))
-                .status(false)
+                .status(status.value())
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(body, status);
     }
 }

@@ -9,9 +9,9 @@ import lombok.Data;
 @Builder
 public class MovementResponse {
     private Long movementId;
-    private String type;    
+    private Long productId;
+    private String type;
     private Long quantity;
     private String reason;
     private LocalDateTime createdAt;
-    private ProductResponse product;
 }

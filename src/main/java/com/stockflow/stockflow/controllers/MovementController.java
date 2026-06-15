@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stockflow.stockflow.dtos.MovementRequest;
 import com.stockflow.stockflow.responses.MovementResponse;
 import com.stockflow.stockflow.services.MovementService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,11 +28,11 @@ public class MovementController {
     }
 
     @PostMapping
-    public MovementResponse save(@RequestBody MovementRequest movementRequest) {
+    public MovementResponse save(@RequestBody @Valid MovementRequest movementRequest) {
         return movementService.save(movementRequest);
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/{productId}/history")
     public List<MovementResponse> getMovementHistory(@PathVariable Long productId) {
         return movementService.findByProductId(productId);
     }    

@@ -9,12 +9,6 @@ import com.stockflow.stockflow.responses.MovementResponse;
 @Component
 public class MovementMapper {
 
-    private final ProductMapper productMapper;
-
-    public MovementMapper(ProductMapper productMapper) {
-        this.productMapper = productMapper;
-    }
-
     public Movement toEntity(MovementRequest movementRequest) {
         return Movement.builder()
                 .type(movementRequest.getType().toString())
@@ -25,10 +19,11 @@ public class MovementMapper {
 
     public MovementResponse toResponse(Movement movement) {
         return MovementResponse.builder()
+                .movementId(movement.getMovementId())
+                .productId(movement.getProduct().getProductId())
                 .type(movement.getType())
                 .quantity(movement.getQuantity())
                 .createdAt(movement.getCreatedAt())
-                .product(productMapper.toResponse(movement.getProduct()))
                 .reason(movement.getReason())
                 .build();
     }

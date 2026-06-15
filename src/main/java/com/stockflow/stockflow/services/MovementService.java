@@ -32,10 +32,9 @@ public class MovementService {
     }
 
     @Transactional(readOnly = true)
-    public List<MovementResponse> findByProductId(Long movementId) {
+    public List<MovementResponse> findByProductId(Long productId) {
 
-        Product product = productRepository.findById(movementId).orElseThrow(
-            () -> new ProductNotFoundException(movementId));
+        Product product = findProduct(productId);
 
         return movementRepository.findByProduct(product).stream()
             .map(movementMapper::toResponse)
@@ -44,15 +43,17 @@ public class MovementService {
     
     public MovementResponse save(MovementRequest movementRequest) {
 
-        Movement movementEntity = movementMapper.toEntity(movementRequest);
         Product product = findProduct(movementRequest.getProductId());
+        Movement movementEntity = movementMapper.toEntity(movementRequest);
 
-        if(movementRequest.getType() == MovementType.OUT && (product.getCurrentStock() < movementRequest.getQuantity())) {
+        if (movementRequest.getType() == MovementType.OUT
+                && product.getCurrentStock() < movementRequest.getQuantity()) {
             throw new InsufficientStockException("Insufficient stock for product " + product.getName() + " with sku " + product.getSku());
         }
 
-        updateProductStock(product, movementRequest.getQuantity());
-        
+        updateProductStock(product, movementRequest.getType(), movementRequest.getQuantity());
+        movementEntity.setProduct(product);
+
         return movementMapper.toResponse(movementRepository.save(movementEntity));
     }
 
@@ -62,8 +63,12 @@ public class MovementService {
             () -> new ProductNotFoundException(productId));
     }
 
-    private void updateProductStock(Product product, Long quantity) {
-        product.setCurrentStock(product.getCurrentStock() + quantity);
+    private void updateProductStock(Product product, MovementType type, Long quantity) {
+        long updatedStock = type == MovementType.OUT
+                ? product.getCurrentStock() - quantity
+                : product.getCurrentStock() + quantity;
+
+        product.setCurrentStock(updatedStock);
         productRepository.save(product);
     }
 }

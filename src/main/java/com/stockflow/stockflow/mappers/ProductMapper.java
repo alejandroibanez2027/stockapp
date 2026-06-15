@@ -1,6 +1,5 @@
 package com.stockflow.stockflow.mappers;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.stockflow.stockflow.dtos.ProductRequest;
@@ -9,12 +8,6 @@ import com.stockflow.stockflow.responses.ProductResponse;
 
 @Component
 public class ProductMapper {
-
-    private final MovementMapper movementMapper;
-
-    ProductMapper(@Lazy MovementMapper movementMapper) {
-        this.movementMapper = movementMapper;
-    }
 
     public Product toEntity(ProductRequest productRequest) {
         return Product.builder()
@@ -36,7 +29,6 @@ public class ProductMapper {
                 .currentStock(product.getCurrentStock())
                 .minStock(product.getMinStock())
                 .unitPrice(product.getUnitPrice())
-                .movements(product.getMovements().stream().map(movementMapper::toResponse).toList())
                 .build();
     }
 }

@@ -1,7 +1,5 @@
 package com.stockflow.stockflow.responses;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,5 +13,4 @@ public class ProductResponse {
     private Long currentStock;
     private Long minStock;
     private Double unitPrice;
-    private List<MovementResponse> movements;
 }

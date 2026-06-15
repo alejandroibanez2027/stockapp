@@ -2,21 +2,23 @@ package com.stockflow.stockflow.dtos;
 
 import com.stockflow.stockflow.enums.MovementType;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class MovementRequest {
-    @NotNull @NotBlank
+    @NotNull
     private MovementType type;
 
-    @NotNull @NotBlank
+    @NotNull
     private Long productId;
 
-    @NotNull @NotBlank
+    @NotNull
+    @Positive
     private Long quantity;
 
-    @NotNull @NotBlank
+    @NotBlank
     private String reason;
 }
