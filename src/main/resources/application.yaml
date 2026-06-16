@@ -66,3 +66,19 @@ resilience4j:
     instances:
       movementHistory:
         base-config: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+
+  info:
+    app:
+      name: StockFlow
+      version: 1.0.0
+      description: API de monitoreo de inventario en tiempo real
+
+  health:
+    defaults:
+      enabled: true
