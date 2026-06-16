@@ -52,7 +52,7 @@ resilience4j:
         enable-exponential-backoff: true      # Duplica espera en cada intento: 500ms → 1s → 2s (evita picos de reintentos simultáneos)
         exponential-backoff-multiplier: 2
         retry-exceptions:
-          - java.lang.Exception
+          - org.springframework.dao.DataAccessException
     instances:
       movementService:
         base-config: default

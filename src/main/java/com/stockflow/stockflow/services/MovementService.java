@@ -72,6 +72,10 @@ public class MovementService {
             () -> new ProductNotFoundException(productId));
     }
 
+    public MovementResponse saveFallback(MovementRequest movementRequest, InsufficientStockException e) {
+        throw e;
+    }
+
     public MovementResponse saveFallback(MovementRequest movementRequest, Throwable t) {
         log.error("Error al registrar movimiento después de reintentos: {}", t.getMessage());
         throw new RuntimeException("No se pudo registrar el movimiento después de múltiples intentos", t);
