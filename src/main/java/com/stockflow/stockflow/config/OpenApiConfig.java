@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         version = "1.0",
         description = "API de monitoreo de inventario en tiempo real",
         contact = @Contact(name = "StockFlow Inc."),
-        license = @License(name = "MIT")),
+        license = @License(name = "Alejandro Ibañez")),
     servers = @Server(url = "http://localhost:8080", description = "Servidor de desarrollo")
 )
 public class OpenApiConfig {
