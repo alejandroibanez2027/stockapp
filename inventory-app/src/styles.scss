@@ -1,0 +1,32 @@
+@import 'primeicons/primeicons.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  background: var(--surface-ground);
+  color: var(--text-color);
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-25rem {
+  width: 25rem;
+}
+
+.w-30rem {
+  width: 30rem;
+}
+
+@media (max-width: 768px) {
+  .w-25rem, .w-30rem {
+    width: 90vw;
+  }
+}

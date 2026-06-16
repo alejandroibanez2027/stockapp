@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  height: 100dvh;
+}
+
+.app-layout {
+  display: flex;
+  height: 100dvh;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--surface-ground);
+}
