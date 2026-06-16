@@ -15,11 +15,11 @@ public class AlertMapper {
                 .productName(product.getName())
                 .currentStock(product.getCurrentStock())
                 .minStock(product.getMinStock())
-                .severity(resolveSeverity(product.getCurrentStock()))
+                .severity(resolveSeverity(product.getCurrentStock(), product.getMinStock()))
                 .build();
     }
 
-    private AlertSeverity resolveSeverity(Long currentStock) {
-        return currentStock == 0 ? AlertSeverity.CRITICAL : AlertSeverity.LOW;
+    private AlertSeverity resolveSeverity(Long currentStock, Long minStock) {
+        return currentStock < minStock ? AlertSeverity.CRITICAL : AlertSeverity.LOW;
     }
 }

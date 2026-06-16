@@ -56,9 +56,9 @@ class AlertServiceTest {
     }
 
     @Test
-    void shouldSetCriticalSeverityWhenStockIsZero() {
+    void shouldSetCriticalSeverityWhenStockIsBelowMin() {
         when(productRepository.findAll()).thenReturn(List.of(
-                product(1L, "Mouse", 0L, 10L)));
+                product(1L, "Mouse", 3L, 5L)));
 
         List<StockAlertResponse> alerts = alertService.getAlerts();
 
@@ -66,9 +66,9 @@ class AlertServiceTest {
     }
 
     @Test
-    void shouldSetLowSeverityWhenStockIsBelowMinButNotZero() {
+    void shouldSetLowSeverityWhenStockEqualsMin() {
         when(productRepository.findAll()).thenReturn(List.of(
-                product(1L, "Monitor", 3L, 5L)));
+                product(1L, "Monitor", 5L, 5L)));
 
         List<StockAlertResponse> alerts = alertService.getAlerts();
 

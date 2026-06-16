@@ -67,18 +67,19 @@ resilience4j:
       movementHistory:
         base-config: default
 
+# Configuración de Actuator para monitoreo y observabilidad
 management:
   endpoints:
     web:
       exposure:
-        include: health,metrics,info
+        include: health,metrics,info   # Expone los endpoints de health (vitalidad), metrics (métricas JVM/sistema) e info (metadatos)
 
   info:
     app:
-      name: StockFlow
-      version: 1.0.0
+      name: StockFlow                  # Nombre del microservicio para identificación en /actuator/info
+      version: 1.0.0                   # Versión actual del proyecto (facilita trazabilidad en despliegues)
       description: API de monitoreo de inventario en tiempo real
 
   health:
     defaults:
-      enabled: true
+      enabled: true                    # Habilita todos los health indicators del contexto, incluido StockHealthIndicator que verifica si más del 20% de productos están en estado crítico (currentStock == 0)

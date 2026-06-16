@@ -22,6 +22,7 @@ public class StockHealthIndicator implements HealthIndicator {
     public Health health() {
         List<Product> products = productRepository.findAll();
 
+        // Si no hay productos, se reporta UP con 0% crítico
         if (products.isEmpty()) {
             return Health.up()
                     .withDetail("criticalPercentage", 0)
@@ -29,14 +30,16 @@ public class StockHealthIndicator implements HealthIndicator {
                     .build();
         }
 
+        // Cuenta productos con stock por debajo del mínimo (currentStock < minStock → severidad CRITICAL)
         long criticalCount = products.stream()
-                .filter(p -> p.getCurrentStock() == 0)
+                .filter(p -> p.getCurrentStock() < p.getMinStock())
                 .count();
 
+        // Calcula porcentaje de productos en estado crítico sobre el total
         double percentage = (criticalCount * 100.0) / products.size();
-        boolean isDown = percentage > 20;
 
-        if (isDown) {
+        // Si más del 20% supera el umbral, el health check reporta DOWN
+        if (percentage > 20) {
             return Health.down()
                     .withDetail("criticalPercentage", Math.round(percentage * 100.0) / 100.0)
                     .withDetail("message", "Más del 20% de los productos están en estado crítico")
