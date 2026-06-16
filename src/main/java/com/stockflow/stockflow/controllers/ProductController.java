@@ -18,6 +18,8 @@ import com.stockflow.stockflow.responses.ProductResponse;
 import com.stockflow.stockflow.services.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,6 +39,12 @@ public class ProductController {
 
     @GetMapping
     @Operation(summary = ProductEndpoint.FIND_ALL.SUMMARY, description = ProductEndpoint.FIND_ALL.DESCRIPTION)
+    @Parameters({
+        @Parameter(name = "category", description = "Filtrar por categoría"),
+        @Parameter(name = "page", description = "Número de página (empezando en 0)", example = "0"),
+        @Parameter(name = "size", description = "Elementos por página", example = "20"),
+        @Parameter(name = "sort", description = "Ordenación en formato: propiedad,asc|desc. Ej: name,desc", example = "productId,asc")
+    })
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Lista paginada de productos", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductResponse.class))))
     })

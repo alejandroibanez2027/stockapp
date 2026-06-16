@@ -3,6 +3,7 @@ package com.stockflow.stockflow.exceptions.handler;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining("; "));
 
         return buildErrorResponse(ex.getClass().getSimpleName(), message, request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ErrorResponse> handlePropertyReference(PropertyReferenceException ex, WebRequest request) {
+        return buildErrorResponse(ex, request, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)

@@ -67,6 +67,9 @@ resilience4j:
       movementHistory:
         base-config: default
 
+springdoc:
+  show-actuator: true                    # Expone los endpoints de Actuator en Swagger/OpenAPI
+
 # Configuración de Actuator para monitoreo y observabilidad
 management:
   endpoints:
