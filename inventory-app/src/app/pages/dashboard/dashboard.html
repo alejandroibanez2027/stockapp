@@ -26,11 +26,14 @@
            [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
         <span class="alert-sku">{{ alert.sku }}</span>
         <span class="alert-name">{{ alert.productName }}</span>
-        <div class="stock-numbers">
-          <span class="stock-label stock-current"><small>Stock</small> {{ alert.currentStock }}</span>
-          <span class="stock-sep">|</span>
-          <span class="stock-label stock-min"><small>Mín</small> {{ alert.minStock }}</span>
-        </div>
+        <span class="col-stock">
+          <small>Stock</small>
+          <span>{{ alert.currentStock }}</span>
+        </span>
+        <span class="col-min">
+          <small>Mín</small>
+          <span>{{ alert.minStock }}</span>
+        </span>
         <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
                [value]="alert.severity" />
       </div>
@@ -43,16 +46,14 @@
         <span>SKU</span>
         <span>Producto</span>
         <span>Stock</span>
+        <span>Mín</span>
       </div>
       @for (p of store.lowStockProducts(); track p.productId) {
         <div class="low-stock-item">
           <span class="low-stock-sku">{{ p.sku }}</span>
           <span class="low-stock-name">{{ p.name }}</span>
-          <div class="stock-numbers">
-            <span class="stock-label stock-current"><small>Stock</small> {{ p.currentStock }}</span>
-            <span class="stock-sep">|</span>
-            <span class="stock-label stock-min"><small>Mín</small> {{ p.minStock }}</span>
-          </div>
+          <span class="col-stock">{{ p.currentStock }}</span>
+          <span class="col-min">{{ p.minStock }}</span>
         </div>
       }
     </p-panel>
