@@ -41,6 +41,10 @@ export class MovementDialog {
     reason: ['', Validators.required],
   });
 
+  onShow(): void {
+    this.form.reset({ type: 'IN', quantity: 1, reason: '' });
+  }
+
   onHide(): void {
     this.visibleChange.emit(false);
   }

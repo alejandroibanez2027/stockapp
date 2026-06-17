@@ -36,6 +36,10 @@ export class ProductFormDialog {
     unitPrice: [0, [Validators.required, Validators.min(0)]],
   });
 
+  onShow(): void {
+    this.form.reset({ sku: '', name: '', category: '', currentStock: 0, minStock: 0, unitPrice: 0 });
+  }
+
   onHide(): void {
     this.visibleChange.emit(false);
   }
