@@ -14,76 +14,19 @@
     }
   </div>
 
-  <div class="dashboard-grid">
-    <div class="left-col">
-      <p-panel header="Alertas de Stock" [toggleable]="true">
-        @if (store.alerts().length === 0) {
-          <p>No hay alertas activas.</p>
-        }
-        @for (alert of store.alerts(); track alert.productId) {
-          <div class="alert-item" [class.critical]="alert.severity === 'CRITICAL'">
-            <i [class]="'pi ' + (alert.severity === 'CRITICAL' ? 'pi-times-circle' : 'pi-exclamation-triangle')"
-               [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
-            <span class="alert-name">{{ alert.productName }}</span>
-            <span class="alert-stock">{{ alert.currentStock }} / {{ alert.minStock }}</span>
-            <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
-                   [value]="alert.severity" />
-          </div>
-        }
-      </p-panel>
-
-      @defer (on viewport) {
-        <p-panel header="Estadísticas Avanzadas" class="stats-panel">
-          <div class="stats-grid">
-            <div class="stat-item">
-              <span class="stat-label">Stock promedio</span>
-              <span class="stat-value">{{ avgStock() | number:'1.0-0' }}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Productos con stock crítico</span>
-              <span class="stat-value">{{ store.criticalAlerts() }}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">% Stock crítico</span>
-              <span class="stat-value">{{ criticalPercent() }}%</span>
-            </div>
-          </div>
-        </p-panel>
-      } @placeholder {
-        <p-skeleton height="200px" />
-      } @loading {
-        <div class="spinner-container"><i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i></div>
-      } @error {
-        <p-panel header="Estadísticas"><p>Error al cargar estadísticas.</p></p-panel>
-      }
-    </div>
-
-    <div class="right-col">
-      <p-panel header="Registrar Movimiento">
-        <form [formGroup]="movementForm" (ngSubmit)="registerMovement()">
-          <div class="field">
-            <label>Producto</label>
-            <p-select [options]="store.products()" formControlName="productId"
-                      optionLabel="name" optionValue="productId" placeholder="Seleccionar producto"
-                      styleClass="w-full" [showClear]="true"></p-select>
-          </div>
-          <div class="field">
-            <label>Tipo</label>
-            <p-selectButton [options]="movementTypes" formControlName="type"
-                            optionLabel="label" optionValue="value" />
-          </div>
-          <div class="field">
-            <label>Cantidad</label>
-            <p-inputNumber formControlName="quantity" [min]="1" styleClass="w-full" />
-          </div>
-          <div class="field">
-            <label>Razón</label>
-            <textarea pTextarea formControlName="reason" rows="3" class="w-full"></textarea>
-          </div>
-          <p-button type="submit" label="Guardar Movimiento" icon="pi pi-save"
-                    [disabled]="movementForm.invalid || movementLoading" [loading]="movementLoading" />
-        </form>
-      </p-panel>
-    </div>
-  </div>
+  <p-panel header="Alertas de Stock" [toggleable]="true">
+    @if (store.alerts().length === 0) {
+      <p>No hay alertas activas.</p>
+    }
+    @for (alert of store.alerts(); track alert.productId) {
+      <div class="alert-item" [class.critical]="alert.severity === 'CRITICAL'">
+        <i [class]="'pi ' + (alert.severity === 'CRITICAL' ? 'pi-times-circle' : 'pi-exclamation-triangle')"
+           [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
+        <span class="alert-name">{{ alert.productName }}</span>
+        <span class="alert-stock">{{ alert.currentStock }} / {{ alert.minStock }}</span>
+        <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
+               [value]="alert.severity" />
+      </div>
+    }
+  </p-panel>
 </div>

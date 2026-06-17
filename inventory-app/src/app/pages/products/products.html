@@ -54,7 +54,10 @@
 
   <app-product-form-dialog [(visible)]="newProductDialog" />
 
-  <app-product-detail-dialog [(visible)]="detailDialog" [product]="detailProduct" (registerMovement)="openMovementDialog($event)" />
+  <app-product-detail-dialog 
+    [(visible)]="detailDialog" 
+    [product]="detailProduct" 
+    (registerMovement)="openMovementDialog($event)" />
 
   <app-movement-dialog [(visible)]="movementDialog" [product]="movementProduct" />
 </div>

@@ -1,16 +1,7 @@
 .dashboard { padding: 1.5rem; }
 h1 { margin: 0 0 1.5rem; font-size: 1.75rem; }
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-.dashboard-grid { display: grid; grid-template-columns: 1fr 400px; gap: 1.5rem; }
-@media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr; } }
 .alert-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--surface-border); }
 .alert-item.critical { background: var(--red-50); margin: 0 -1rem; padding: 0.5rem 1rem; }
 .alert-name { flex: 1; font-weight: 500; }
 .alert-stock { color: var(--text-color-secondary); }
-.field { margin-bottom: 1rem; }
-.field label { display: block; margin-bottom: 0.25rem; font-weight: 500; }
-.stats-grid { display: flex; flex-direction: column; gap: 1rem; }
-.stat-item { display: flex; justify-content: space-between; }
-.stat-label { color: var(--text-color-secondary); }
-.stat-value { font-weight: 600; }
-.spinner-container { display: flex; justify-content: center; padding: 2rem; }
