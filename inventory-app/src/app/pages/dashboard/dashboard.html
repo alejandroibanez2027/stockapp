@@ -7,10 +7,10 @@
         <p-skeleton height="100px" />
       }
     } @else {
-      <app-kpi-card icon="pi-box" [value]="store.totalProducts()" label="Total Productos" color="var(--blue-500)" />
-      <app-kpi-card icon="pi-exclamation-triangle" [value]="store.totalAlerts()" label="Alertas Activas" color="var(--orange-500)" />
-      <app-kpi-card icon="pi-times-circle" [value]="store.criticalAlerts()" label="Alertas Críticas" color="var(--red-500)" />
-      <app-kpi-card icon="pi-dollar" [value]="'$' + (store.totalInventoryValue() | number:'1.2-2')" label="Valor Inventario" color="var(--green-500)" />
+      <app-kpi-card icon="pi-box" [value]="store.totalProducts()" label="Total Productos" color="#6366f1" />
+      <app-kpi-card icon="pi-exclamation-triangle" [value]="store.totalAlerts()" label="Alertas Activas" color="#6366f1" />
+      <app-kpi-card icon="pi-times-circle" [value]="store.criticalAlerts()" label="Alertas Críticas" color="#6366f1" />
+      <app-kpi-card icon="pi-dollar" [value]="'$' + (store.totalInventoryValue() | number:'1.2-2')" label="Valor Inventario" color="#6366f1" />
     }
   </div>
 
