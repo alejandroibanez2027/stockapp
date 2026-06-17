@@ -1,0 +1,4 @@
+.detail-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+.detail-row { display: flex; justify-content: space-between; align-items: center; }
+.detail-label { font-weight: 500; color: var(--text-color-secondary); }
+.dialog-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }

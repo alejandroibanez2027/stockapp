@@ -1,0 +1,14 @@
+<p-dialog header="Nuevo Producto" [visible]="visible()" [modal]="true" styleClass="w-30rem" (onHide)="onHide()">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field"><label>SKU</label><input pInputText formControlName="sku" class="w-full" /></div>
+    <div class="field"><label>Nombre</label><input pInputText formControlName="name" class="w-full" /></div>
+    <div class="field"><label>Categoría</label><input pInputText formControlName="category" class="w-full" /></div>
+    <div class="field"><label>Stock actual</label><p-inputNumber formControlName="currentStock" [min]="0" styleClass="w-full" /></div>
+    <div class="field"><label>Stock mínimo</label><p-inputNumber formControlName="minStock" [min]="0" styleClass="w-full" /></div>
+    <div class="field"><label>Precio unitario</label><p-inputNumber formControlName="unitPrice" [min]="0" [minFractionDigits]="2" styleClass="w-full" /></div>
+    <div class="dialog-footer">
+      <p-button label="Cancelar" severity="secondary" (click)="onHide()" />
+      <p-button type="submit" label="Guardar" [disabled]="form.invalid || saving()" [loading]="saving()" />
+    </div>
+  </form>
+</p-dialog>

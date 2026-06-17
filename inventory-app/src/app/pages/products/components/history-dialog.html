@@ -1,0 +1,22 @@
+<p-dialog [header]="'Historial - ' + product()?.name" [visible]="visible()" [modal]="true" styleClass="w-35rem" (onShow)="onShow()" (onHide)="onHide()">
+  @if (loading) {
+    <p-skeleton height="100px" />
+  } @else {
+    <p-table [value]="history" dataKey="movementId">
+      <ng-template #header>
+        <tr><th>Tipo</th><th>Cantidad</th><th>Razón</th><th>Fecha</th></tr>
+      </ng-template>
+      <ng-template #body let-m>
+        <tr>
+          <td><p-tag [severity]="m.type === 'IN' ? 'success' : 'danger'" [value]="m.type" /></td>
+          <td>{{ m.quantity }}</td>
+          <td>{{ m.reason }}</td>
+          <td>{{ m.createdAt | date:'short' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+  <ng-template #footer>
+    <p-button label="Cerrar" severity="secondary" (click)="onHide()" />
+  </ng-template>
+</p-dialog>

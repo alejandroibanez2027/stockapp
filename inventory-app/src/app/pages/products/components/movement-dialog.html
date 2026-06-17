@@ -1,0 +1,13 @@
+<p-dialog [header]="'Movimiento - ' + product()?.name" [visible]="visible()" [modal]="true" styleClass="w-25rem" (onHide)="onHide()">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field"><label>Tipo</label>
+      <p-selectButton [options]="movementTypes" formControlName="type" optionLabel="label" optionValue="value" />
+    </div>
+    <div class="field"><label>Cantidad</label><p-inputNumber formControlName="quantity" [min]="1" styleClass="w-full" /></div>
+    <div class="field"><label>Razón</label><textarea pTextarea formControlName="reason" rows="3" class="w-full"></textarea></div>
+    <div class="dialog-footer">
+      <p-button label="Cancelar" severity="secondary" (click)="onHide()" />
+      <p-button type="submit" label="Guardar" [disabled]="form.invalid || saving()" [loading]="saving()" />
+    </div>
+  </form>
+</p-dialog>
