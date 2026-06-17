@@ -44,15 +44,17 @@
     </ng-template>
   </p-table>
 
+  <!-- Carga diferida de historial -->
   <div #historyTriggerEl style="display:none"></div>
-
   @defer (on interaction(historyTriggerEl)) {
     <app-history-dialog [(visible)]="historyDialog" [product]="selectedForHistory" />
   } @placeholder {
     <span></span>
   }
 
-  <app-product-form-dialog [(visible)]="newProductDialog" [saving]="savingProduct" (save)="saveProduct($event)" />
+  <app-product-form-dialog [(visible)]="newProductDialog" />
+
   <app-product-detail-dialog [(visible)]="detailDialog" [product]="detailProduct" (registerMovement)="openMovementDialog($event)" />
-  <app-movement-dialog [(visible)]="movementDialog" [product]="movementProduct" [saving]="movementSaving" (save)="saveMovement($event)" />
+
+  <app-movement-dialog [(visible)]="movementDialog" [product]="movementProduct" />
 </div>

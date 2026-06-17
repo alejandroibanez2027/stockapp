@@ -1,10 +1,12 @@
-import { Component, output, input } from '@angular/core';
+import { Component, output, input, inject, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { ProductService } from '../../../../core/services/product.service';
+import { InventoryStore } from '../../../../store/inventory.store';
 import { ProductRequest } from '../../../../shared/models/product.model';
 
 @Component({
@@ -16,11 +18,14 @@ import { ProductRequest } from '../../../../shared/models/product.model';
 })
 export class ProductFormDialog {
   readonly visible = input(false);
-  readonly saving = input(false);
   readonly visibleChange = output<boolean>();
-  readonly save = output<ProductRequest>();
 
   private readonly fb = inject(FormBuilder);
+  private readonly productService = inject(ProductService);
+  private readonly messageService = inject(MessageService);
+  private readonly store = inject(InventoryStore);
+
+  protected saving = signal(false);
 
   protected form = this.fb.nonNullable.group({
     sku: ['', Validators.required],
@@ -37,7 +42,16 @@ export class ProductFormDialog {
 
   submit(): void {
     if (this.form.invalid) return;
-    this.save.emit(this.form.value as unknown as ProductRequest);
-    this.form.reset({ sku: '', name: '', category: '', currentStock: 0, minStock: 0, unitPrice: 0 });
+    this.saving.set(true);
+    this.productService.save(this.form.value as unknown as ProductRequest).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', summary: 'Producto creado', detail: 'Producto registrado correctamente', life: 3000 });
+        this.visibleChange.emit(false);
+        this.form.reset({ sku: '', name: '', category: '', currentStock: 0, minStock: 0, unitPrice: 0 });
+        this.store.loadProducts();
+        this.saving.set(false);
+      },
+      error: () => this.saving.set(false),
+    });
   }
 }
