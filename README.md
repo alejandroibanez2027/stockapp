@@ -31,6 +31,7 @@ stockflow/
 - **CORS**: backend permite `http://localhost:4200`, frontend apunta directamente al backend.
 - **Angular 21 con PrimeNG 21**: se usó `p-select` en vez de `p-dropdown` (renombrado) y `textarea[pTextarea]` para textarea.
 - **Signals**: estado global gestionado con `signal()`, `computed()`, `effect()` en `InventoryStore`.
+- **Componente de estadísticas avanzadas no especificado**: Se coloco el listado de top 10 productos con stock bajo, ordenados de manor a mayor utilizando  @defer (on viewport).
 
 ## Arranque
 
