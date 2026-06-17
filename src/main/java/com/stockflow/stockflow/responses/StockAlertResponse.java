@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 public class StockAlertResponse {
     private Long productId;
+    private String sku;
     private String productName;
     private Long currentStock;
     private Long minStock;

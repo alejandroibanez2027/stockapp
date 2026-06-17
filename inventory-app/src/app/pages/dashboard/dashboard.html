@@ -23,6 +23,7 @@
         <i [class]="'pi ' + (alert.severity === 'CRITICAL' ? 'pi-times-circle' : 'pi-exclamation-triangle')"
            [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
         <span class="alert-name">{{ alert.productName }}</span>
+        <span class="alert-sku">{{ alert.sku }}</span>
         <span class="alert-stock">{{ alert.currentStock }} / {{ alert.minStock }}</span>
         <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
                [value]="alert.severity" />
@@ -34,11 +35,13 @@
     <p-panel header="Top 10 — Stock Bajo (no crítico)" class="low-stock-panel">
       <div class="low-stock-header">
         <span>Producto</span>
+        <span>SKU</span>
         <span>Stock</span>
       </div>
       @for (p of store.lowStockProducts(); track p.productId) {
         <div class="low-stock-item">
           <span class="low-stock-name">{{ p.name }}</span>
+          <span class="low-stock-sku">{{ p.sku }}</span>
           <span class="low-stock-value">{{ p.currentStock }} / {{ p.minStock }}</span>
         </div>
       }

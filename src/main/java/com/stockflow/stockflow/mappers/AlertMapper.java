@@ -12,6 +12,7 @@ public class AlertMapper {
     public StockAlertResponse toResponse(Product product) {
         return StockAlertResponse.builder()
                 .productId(product.getProductId())
+                .sku(product.getSku())
                 .productName(product.getName())
                 .currentStock(product.getCurrentStock())
                 .minStock(product.getMinStock())
