@@ -1,25 +1,16 @@
 import { Component } from '@angular/core';
-import { PanelMenuModule } from 'primeng/panelmenu';
-import { MenuItem } from 'primeng/api';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [PanelMenuModule],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.scss'],
 })
 export class Sidebar {
-  readonly items: MenuItem[] = [
-    {
-      label: 'Dashboard',
-      icon: 'pi pi-chart-bar',
-      routerLink: '/dashboard',
-    },
-    {
-      label: 'Productos',
-      icon: 'pi pi-box',
-      routerLink: '/products',
-    },
+  readonly items = [
+    { label: 'Dashboard', icon: 'pi-chart-bar', route: '/dashboard' },
+    { label: 'Productos', icon: 'pi-box', route: '/products' },
   ];
 }

@@ -1,7 +1,18 @@
 <div class="sidebar">
   <div class="logo">
-    <i class="pi pi-box" style="font-size: 1.5rem; margin-right: 0.5rem;"></i>
+    <div class="logo-icon">
+      <i class="pi pi-box"></i>
+    </div>
     <span class="logo-text">StockFlow</span>
   </div>
-  <p-panelMenu [model]="items" />
+
+  <div class="nav-label">Navegación</div>
+  <nav class="nav-items">
+    @for (item of items; track item.route) {
+      <a class="nav-link" [routerLink]="item.route" routerLinkActive="nav-link--active" [routerLinkActiveOptions]="{ exact: false }">
+        <i [class]="'pi ' + item.icon"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
 </div>
