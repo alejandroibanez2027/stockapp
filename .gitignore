@@ -28,6 +28,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### Node ###
+node_modules/
+npm-debug.log*
+
 ### VS Code ###
 .vscode/
 requerimientos.md
