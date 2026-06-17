@@ -17,7 +17,7 @@ export class Dashboard implements OnInit {
   protected readonly store = inject(InventoryStore);
 
   ngOnInit(): void {
-    this.store.loadProducts();
+    this.store.loadDashboardProducts();
     this.store.loadAlerts();
   }
 }

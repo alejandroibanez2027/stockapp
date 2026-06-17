@@ -46,13 +46,16 @@ export class MovementDialog {
 
   submit(): void {
     if (this.form.invalid) return;
+    
     this.saving.set(true);
+
     const request: MovementRequest = {
       productId: this.product().productId,
       type: this.form.value.type as 'IN' | 'OUT',
       quantity: this.form.value.quantity!,
       reason: this.form.value.reason!,
     };
+
     this.movementService.save(request).subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Movimiento registrado', detail: 'Stock actualizado', life: 3000 });

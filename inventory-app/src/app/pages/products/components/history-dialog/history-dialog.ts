@@ -31,6 +31,7 @@ export class HistoryDialog implements OnInit {
 
   private load(): void {
     this.loading = true;
+    
     this.movementService.findByProductId(this.product().productId).subscribe({
       next: (data) => { this.history = data; this.loading = false; },
       error: () => this.loading = false,

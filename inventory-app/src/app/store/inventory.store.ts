@@ -89,6 +89,25 @@ export class InventoryStore {
     });
   }
 
+  loadDashboardProducts(): void {
+    this.loading.set(true);
+    this.error.set(null);
+    this.productService.findAll('', 0, 10, 'productId,asc').pipe(
+      finalize(() => this.loading.set(false)),
+      catchError((err) => {
+        this.error.set(err.error?.message || 'Error al cargar productos');
+        throw err;
+      })
+    ).subscribe({
+      next: (res) => {
+        this.products.set(res.content);
+        this.totalElements.set(res.totalElements);
+        this.totalPages.set(res.totalPages);
+        this.currentPage.set(res.number);
+      },
+    });
+  }
+
   loadAlerts(): void {
     this.alertService.getAlerts().subscribe({
       next: (data) => this.alerts.set(data),

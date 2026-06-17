@@ -15,15 +15,17 @@
   </div>
 
   <p-panel header="Alertas de Stock" [toggleable]="true">
+
     @if (store.alerts().length === 0) {
       <p>No hay alertas activas.</p>
     }
+
     @for (alert of store.alerts(); track alert.productId) {
       <div class="alert-item" [class.critical]="alert.severity === 'CRITICAL'">
         <i [class]="'pi ' + (alert.severity === 'CRITICAL' ? 'pi-times-circle' : 'pi-exclamation-triangle')"
            [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
-        <span class="alert-name">{{ alert.productName }}</span>
         <span class="alert-sku">{{ alert.sku }}</span>
+        <span class="alert-name">{{ alert.productName }}</span>
         <span class="alert-stock">{{ alert.currentStock }} / {{ alert.minStock }}</span>
         <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
                [value]="alert.severity" />
