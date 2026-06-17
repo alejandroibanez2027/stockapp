@@ -2,8 +2,8 @@ import { Component, output, input } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { CurrencyPipe } from '@angular/common';
-import { StockBadge } from '../../../shared/components/stock-badge/stock-badge';
-import { Product } from '../../../shared/models/product.model';
+import { StockBadge } from '../../../../shared/components/stock-badge/stock-badge';
+import { Product } from '../../../../shared/models/product.model';
 
 @Component({
   selector: 'app-product-detail-dialog',

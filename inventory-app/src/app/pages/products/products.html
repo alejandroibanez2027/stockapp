@@ -9,47 +9,40 @@
               styleClass="w-full" (onChange)="filterByCategory()" [showClear]="true"></p-select>
   </div>
 
-  @if (store.loading()) {
-    @for (_ of [1,2,3,4,5]; track _) {
-      <p-skeleton height="50px" style="margin-bottom: 0.5rem;" />
-    }
-  } @else {
-    <p-table [value]="store.products()" dataKey="productId" [paginator]="false" [rows]="10" [size]="'small'" 
-      [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template #header>
-        <tr>
-          <th>SKU</th>
-          <th>Nombre</th>
-          <th>Categoría</th>
-          <th>Stock</th>
-          <th>Estado</th>
-          <th>Precio</th>
-          <th>Acciones</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-product>
-        <tr>
-          <td>{{ product.sku }}</td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.category }}</td>
-          <td>{{ product.currentStock }} / {{ product.minStock }}</td>
-          <td><app-stock-badge [currentStock]="product.currentStock" [minStock]="product.minStock" /></td>
-          <td>{{ product.unitPrice | currency }}</td>
-          <td>
-            <div class="actions">
-              <p-button icon="pi pi-eye" severity="info" pTooltip="Ver detalle" (click)="showDetail(product)" />
-              <p-button icon="pi pi-bolt" severity="warn" pTooltip="Registrar movimiento" (click)="openMovementDialog(product)" />
-              <p-button icon="pi pi-list" severity="secondary" pTooltip="Ver historial"
-                        (click)="showHistory(product); historyTriggerEl.click()" [badge]="' '"/>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-
-    <p-paginator [totalRecords]="store.totalElements()" [rows]="store.filters().size"
-                 [first]="store.currentPage() * store.filters().size" (onPageChange)="onPageChange($event)" />
-  }
+  <p-table [value]="store.products()" dataKey="productId" [lazy]="true" [totalRecords]="store.totalElements()"
+    [rows]="store.filters().size" [first]="store.currentPage() * store.filters().size"
+    (onLazyLoad)="loadLazy($event)" [loading]="store.loading()" [paginator]="true" [size]="'small'"
+    [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="sku">SKU <p-sortIcon field="sku" /></th>
+        <th pSortableColumn="name">Nombre <p-sortIcon field="name" /></th>
+        <th pSortableColumn="category">Categoría <p-sortIcon field="category" /></th>
+        <th pSortableColumn="currentStock">Stock <p-sortIcon field="currentStock" /></th>
+        <th>Estado</th>
+        <th pSortableColumn="unitPrice">Precio <p-sortIcon field="unitPrice" /></th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-product>
+      <tr>
+        <td>{{ product.sku }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.currentStock }} / {{ product.minStock }}</td>
+        <td><app-stock-badge [currentStock]="product.currentStock" [minStock]="product.minStock" /></td>
+        <td>{{ product.unitPrice | currency }}</td>
+        <td>
+          <div class="actions">
+            <p-button icon="pi pi-eye" severity="info" pTooltip="Ver detalle" (click)="showDetail(product)" />
+            <p-button icon="pi pi-bolt" severity="warn" pTooltip="Registrar movimiento" (click)="openMovementDialog(product)" />
+            <p-button icon="pi pi-list" severity="secondary" pTooltip="Ver historial"
+                      (click)="showHistory(product); historyTriggerEl.click()" [badge]="' '"/>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
   <div #historyTriggerEl style="display:none"></div>
 

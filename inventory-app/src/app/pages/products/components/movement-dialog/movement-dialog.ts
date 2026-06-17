@@ -5,8 +5,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Product } from '../../../shared/models/product.model';
-import { MovementRequest } from '../../../shared/models/movement.model';
+import { Product } from '../../../../shared/models/product.model';
+import { MovementRequest } from '../../../../shared/models/movement.model';
 
 @Component({
   selector: 'app-movement-dialog',

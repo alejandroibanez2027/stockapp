@@ -5,7 +5,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { inject } from '@angular/core';
-import { ProductRequest } from '../../../shared/models/product.model';
+import { ProductRequest } from '../../../../shared/models/product.model';
 
 @Component({
   selector: 'app-product-form-dialog',

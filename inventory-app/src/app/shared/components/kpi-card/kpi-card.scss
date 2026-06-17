@@ -20,11 +20,6 @@
         background: var(--card-color);
       }
 
-      &:hover {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.04);
-        transform: translateY(-3px);
-      }
-
       .p-card-body {
         padding: 1.25rem;
         background: linear-gradient(135deg, color-mix(in srgb, var(--card-color) 4%, transparent), transparent 60%);

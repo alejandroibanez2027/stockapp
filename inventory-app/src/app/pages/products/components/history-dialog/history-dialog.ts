@@ -5,9 +5,9 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DatePipe } from '@angular/common';
-import { MovementService } from '../../../core/services/movement.service';
-import { Product } from '../../../shared/models/product.model';
-import { Movement } from '../../../shared/models/movement.model';
+import { MovementService } from '../../../../core/services/movement.service';
+import { Product } from '../../../../shared/models/product.model';
+import { Movement } from '../../../../shared/models/movement.model';
 
 @Component({
   selector: 'app-history-dialog',

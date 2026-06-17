@@ -91,6 +91,5 @@ export class InventoryStore {
 
   setFilters(partial: Partial<Filters>): void {
     this.filters.update(f => ({ ...f, ...partial }));
-    this.loadProducts();
   }
 }

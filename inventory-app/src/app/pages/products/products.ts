@@ -3,7 +3,6 @@ import { CurrencyPipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
-import { PaginatorModule } from 'primeng/paginator';
 import { SkeletonModule } from 'primeng/skeleton';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
@@ -15,18 +14,17 @@ import { MovementService } from '../../core/services/movement.service';
 import { StockBadge } from '../../shared/components/stock-badge/stock-badge';
 import { Product, ProductRequest } from '../../shared/models/product.model';
 import { MovementRequest } from '../../shared/models/movement.model';
-import { ProductFormDialog } from './components/product-form-dialog';
-import { ProductDetailDialog } from './components/product-detail-dialog';
-import { MovementDialog } from './components/movement-dialog';
-import { HistoryDialog } from './components/history-dialog';
+import { ProductFormDialog } from './components/product-form-dialog/product-form-dialog';
+import { ProductDetailDialog } from './components/product-detail-dialog/product-detail-dialog';
+import { MovementDialog } from './components/movement-dialog/movement-dialog';
+import { HistoryDialog } from './components/history-dialog/history-dialog';
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [
     TableModule, ButtonModule, SelectModule,
-    PaginatorModule, SkeletonModule,
-    ToastModule, TooltipModule, FormsModule,
+    SkeletonModule, ToastModule, TooltipModule, FormsModule,
     CurrencyPipe, StockBadge,
     ProductFormDialog, ProductDetailDialog, MovementDialog, HistoryDialog,
   ],
@@ -38,6 +36,8 @@ export class Products implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly movementService = inject(MovementService);
   private readonly messageService = inject(MessageService);
+
+  private loadingLazy = false;
 
   protected categories = ['Electronics', 'Office', 'Home', 'Networking', 'Gaming', 'Accessories'];
   protected selectedCategory: string | undefined;
@@ -59,10 +59,20 @@ export class Products implements OnInit {
 
   protected filterByCategory(): void {
     this.store.setFilters({ category: this.selectedCategory || '', page: 0 });
+    this.store.loadProducts();
   }
 
-  protected onPageChange(event: { page?: number; first?: number; rows?: number }): void {
-    this.store.setFilters({ page: event.page ?? 0, size: event.rows ?? 10 });
+  protected loadLazy(event: any): void {
+    if (this.loadingLazy) return;
+    this.loadingLazy = true;
+    const rows = event.rows ?? 10;
+    const page = (event.first ?? 0) / rows;
+    const sort = event.sortField
+      ? `${event.sortField},${event.sortOrder === 1 ? 'asc' : 'desc'}`
+      : 'productId,asc';
+    this.store.setFilters({ page, size: rows, sort });
+    this.store.loadProducts();
+    this.loadingLazy = false;
   }
 
   protected showDetail(product: Product): void {
