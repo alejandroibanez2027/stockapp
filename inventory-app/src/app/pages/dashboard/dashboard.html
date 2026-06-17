@@ -27,12 +27,8 @@
         <span class="alert-sku">{{ alert.sku }}</span>
         <span class="alert-name">{{ alert.productName }}</span>
         <span class="col-stock">
-          <small>Stock</small>
-          <span>{{ alert.currentStock }}</span>
-        </span>
-        <span class="col-min">
-          <small>Mín</small>
-          <span>{{ alert.minStock }}</span>
+          <small>STOCK / MÍN</small>
+          <span>{{ alert.currentStock }} / {{ alert.minStock }}</span>
         </span>
         <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
                [value]="alert.severity" />
@@ -45,15 +41,13 @@
       <div class="low-stock-header">
         <span>SKU</span>
         <span>Producto</span>
-        <span>Stock</span>
-        <span>Mín</span>
+        <span>STOCK / MÍN</span>
       </div>
       @for (p of store.lowStockProducts(); track p.productId) {
         <div class="low-stock-item">
           <span class="low-stock-sku">{{ p.sku }}</span>
           <span class="low-stock-name">{{ p.name }}</span>
-          <span class="col-stock">{{ p.currentStock }}</span>
-          <span class="col-min">{{ p.minStock }}</span>
+          <span class="col-stock">{{ p.currentStock }} / {{ p.minStock }}</span>
         </div>
       }
     </p-panel>
