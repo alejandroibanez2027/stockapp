@@ -5,9 +5,7 @@ import { TagModule } from 'primeng/tag';
   selector: 'app-stock-badge',
   standalone: true,
   imports: [TagModule],
-  template: `
-    <p-tag [severity]="severity()" [value]="label()" />
-  `,
+  templateUrl: './stock-badge.html',
 })
 export class StockBadge {
   readonly currentStock = input.required<number>();

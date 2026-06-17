@@ -1,0 +1,11 @@
+<p-card>
+  <div class="kpi-content">
+    <div class="kpi-icon-wrap" [style.background]="color() + '20'" [style.color]="color()">
+      <i [class]="'pi ' + icon()"></i>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-value">{{ value() }}</span>
+      <span class="kpi-label">{{ label() }}</span>
+    </div>
+  </div>
+</p-card>

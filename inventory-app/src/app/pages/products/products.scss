@@ -1,0 +1,13 @@
+.products-page { padding: 1.5rem; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.header h1 { margin: 0; font-size: 1.75rem; }
+.filters { margin-bottom: 1rem; max-width: 300px; }
+.actions { display: flex; gap: 0.25rem; }
+.field { margin-bottom: 1rem; }
+.field label { display: block; margin-bottom: 0.25rem; font-weight: 500; }
+.dialog-footer { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.history-panel { margin-top: 1rem; }
+.spinner { display: flex; justify-content: center; padding: 2rem; }
+.detail-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+.detail-row { display: flex; justify-content: space-between; align-items: center; }
+.detail-label { font-weight: 500; color: var(--text-color-secondary); }
