@@ -32,16 +32,16 @@
   </p-panel>
 
   @defer (on viewport) {
-    <p-panel header="Top 10 — Stock Bajo (no crítico)" class="low-stock-panel">
+    <p-panel header="Top 10 — Productos con Stock Bajo (no crítico)" class="low-stock-panel">
       <div class="low-stock-header">
-        <span>Producto</span>
         <span>SKU</span>
+        <span>Producto</span>
         <span>Stock</span>
       </div>
       @for (p of store.lowStockProducts(); track p.productId) {
         <div class="low-stock-item">
-          <span class="low-stock-name">{{ p.name }}</span>
           <span class="low-stock-sku">{{ p.sku }}</span>
+          <span class="low-stock-name">{{ p.name }}</span>
           <span class="low-stock-value">{{ p.currentStock }} / {{ p.minStock }}</span>
         </div>
       }

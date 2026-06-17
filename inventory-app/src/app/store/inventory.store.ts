@@ -63,7 +63,7 @@ export class InventoryStore {
           severity: critical > 0 ? 'warn' : 'info',
           summary: 'Alertas de inventario',
           detail: `${alerts.length} alerta(s) activa(s), ${critical} crítica(s)`,
-          life: 5000,
+          life: critical > 0 ? 15000 : 5000,
         });
       }
     });
