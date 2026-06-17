@@ -26,7 +26,11 @@
            [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
         <span class="alert-sku">{{ alert.sku }}</span>
         <span class="alert-name">{{ alert.productName }}</span>
-        <span class="alert-stock">{{ alert.currentStock }} / {{ alert.minStock }}</span>
+        <div class="stock-numbers">
+          <span class="stock-label stock-current"><small>Stock</small> {{ alert.currentStock }}</span>
+          <span class="stock-sep">|</span>
+          <span class="stock-label stock-min"><small>Mín</small> {{ alert.minStock }}</span>
+        </div>
         <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
                [value]="alert.severity" />
       </div>
@@ -44,7 +48,11 @@
         <div class="low-stock-item">
           <span class="low-stock-sku">{{ p.sku }}</span>
           <span class="low-stock-name">{{ p.name }}</span>
-          <span class="low-stock-value">{{ p.currentStock }} / {{ p.minStock }}</span>
+          <div class="stock-numbers">
+            <span class="stock-label stock-current"><small>Stock</small> {{ p.currentStock }}</span>
+            <span class="stock-sep">|</span>
+            <span class="stock-label stock-min"><small>Mín</small> {{ p.minStock }}</span>
+          </div>
         </div>
       }
     </p-panel>
