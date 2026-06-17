@@ -85,4 +85,9 @@ management:
 
   health:
     defaults:
-      enabled: true                    # Habilita todos los health indicators del contexto, incluido StockHealthIndicator que verifica si más del 20% de productos están en estado crítico (currentStock == 0)
+      enabled: true
+
+  endpoint:
+    health:
+      show-details: always
+      show-components: always                    # Habilita todos los health indicators del contexto, incluido StockHealthIndicator que verifica si más del 20% de productos están en estado crítico (currentStock == 0)
