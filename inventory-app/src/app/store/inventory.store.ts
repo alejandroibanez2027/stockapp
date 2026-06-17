@@ -36,6 +36,12 @@ export class InventoryStore {
   readonly totalInventoryValue = computed(() =>
     this.products().reduce((sum, p) => sum + p.currentStock * p.unitPrice, 0)
   );
+  readonly lowStockProducts = computed(() =>
+    this.products()
+      .filter(p => p.currentStock >= p.minStock)
+      .sort((a, b) => a.currentStock - b.currentStock)
+      .slice(0, 10)
+  );
 
   constructor() {
     const saved = localStorage.getItem('stockflow-filters');

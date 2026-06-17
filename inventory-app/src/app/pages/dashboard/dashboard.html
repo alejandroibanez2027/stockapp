@@ -29,4 +29,25 @@
       </div>
     }
   </p-panel>
+
+  @defer (on viewport) {
+    <p-panel header="Top 10 — Stock Bajo (no crítico)" class="low-stock-panel">
+      <div class="low-stock-header">
+        <span>Producto</span>
+        <span>Stock</span>
+      </div>
+      @for (p of store.lowStockProducts(); track p.productId) {
+        <div class="low-stock-item">
+          <span class="low-stock-name">{{ p.name }}</span>
+          <span class="low-stock-value">{{ p.currentStock }} / {{ p.minStock }}</span>
+        </div>
+      }
+    </p-panel>
+  } @placeholder {
+    <p-skeleton height="200px" />
+  } @loading {
+    <div class="spinner-container"><i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i></div>
+  } @error {
+    <p-panel header="Stock Bajo"><p>Error al cargar.</p></p-panel>
+  }
 </div>

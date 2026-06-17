@@ -5,3 +5,43 @@ h1 { margin: 0 0 1.5rem; font-size: 1.75rem; }
 .alert-item.critical { background: var(--red-50); margin: 0 -1rem; padding: 0.5rem 1rem; }
 .alert-name { flex: 1; font-weight: 500; }
 .alert-stock { color: var(--text-color-secondary); }
+
+.low-stock-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid var(--surface-border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-color-secondary);
+  font-weight: 600;
+}
+
+.low-stock-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--surface-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.low-stock-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.low-stock-value {
+  color: var(--text-color-secondary);
+  font-size: 0.85rem;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
