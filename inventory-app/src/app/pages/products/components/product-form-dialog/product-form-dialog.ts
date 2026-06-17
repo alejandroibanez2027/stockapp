@@ -1,4 +1,4 @@
-import { Component, output, input, inject, signal } from '@angular/core';
+import { Component, output, inject, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -17,8 +17,7 @@ import { ProductRequest } from '../../../../shared/models/product.model';
   styleUrls: ['./product-form-dialog.scss'],
 })
 export class ProductFormDialog {
-  readonly visible = input(false);
-  readonly visibleChange = output<boolean>();
+  readonly close = output<void>();
 
   private readonly fb = inject(FormBuilder);
   private readonly productService = inject(ProductService);
@@ -36,12 +35,8 @@ export class ProductFormDialog {
     unitPrice: [0, [Validators.required, Validators.min(0)]],
   });
 
-  onShow(): void {
-    this.form.reset({ sku: '', name: '', category: '', currentStock: 0, minStock: 0, unitPrice: 0 });
-  }
-
   onHide(): void {
-    this.visibleChange.emit(false);
+    this.close.emit();
   }
 
   submit(): void {
@@ -50,9 +45,8 @@ export class ProductFormDialog {
     this.productService.save(this.form.value as unknown as ProductRequest).subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Producto creado', detail: 'Producto registrado correctamente', life: 3000 });
-        this.visibleChange.emit(false);
-        this.form.reset({ sku: '', name: '', category: '', currentStock: 0, minStock: 0, unitPrice: 0 });
         this.store.loadProducts();
+        this.close.emit();
         this.saving.set(false);
       },
       error: () => this.saving.set(false),

@@ -13,20 +13,16 @@ import { Product } from '../../../../shared/models/product.model';
   styleUrls: ['./product-detail-dialog.scss'],
 })
 export class ProductDetailDialog {
-  readonly visible = input(false);
-  readonly product = input<Product | null>(null);
-  readonly visibleChange = output<boolean>();
+  readonly product = input.required<Product>();
+  readonly close = output<void>();
   readonly registerMovement = output<Product>();
 
   onHide(): void {
-    this.visibleChange.emit(false);
+    this.close.emit();
   }
 
   onRegisterMovement(): void {
-    const p = this.product();
-    if (p) {
-      this.visibleChange.emit(false);
-      this.registerMovement.emit(p);
-    }
+    this.close.emit();
+    this.registerMovement.emit(this.product());
   }
 }

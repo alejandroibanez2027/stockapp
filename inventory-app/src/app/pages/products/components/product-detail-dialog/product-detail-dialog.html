@@ -1,17 +1,16 @@
-<p-dialog header="Detalle del Producto" [visible]="visible()" [modal]="true" styleClass="w-30rem" (onHide)="onHide()">
-  @if (product(); as p) {
-    <div class="detail-grid">
-      <div class="detail-row"><span class="detail-label">SKU</span><span>{{ p.sku }}</span></div>
-      <div class="detail-row"><span class="detail-label">Nombre</span><span>{{ p.name }}</span></div>
-      <div class="detail-row"><span class="detail-label">Categoría</span><span>{{ p.category }}</span></div>
-      <div class="detail-row"><span class="detail-label">Stock actual</span><span>{{ p.currentStock }}</span></div>
-      <div class="detail-row"><span class="detail-label">Stock mínimo</span><span>{{ p.minStock }}</span></div>
-      <div class="detail-row"><span class="detail-label">Precio</span><span>{{ p.unitPrice | currency }}</span></div>
-      <div class="detail-row"><span class="detail-label">Estado</span><span><app-stock-badge [currentStock]="p.currentStock" [minStock]="p.minStock" /></span></div>
-    </div>
-    <div class="dialog-footer" style="margin-top: 1rem;">
-      <p-button label="Cerrar" severity="secondary" (click)="onHide()" />
-      <p-button label="Registrar Movimiento" icon="pi pi-bolt" severity="warn" (click)="onRegisterMovement()" />
-    </div>
-  }
+<p-dialog header="Detalle del Producto" [visible]="true" [modal]="true" styleClass="w-30rem" (onHide)="onHide()">
+  @let p = product();
+  <div class="detail-grid">
+    <div class="detail-row"><span class="detail-label">SKU</span><span>{{ p.sku }}</span></div>
+    <div class="detail-row"><span class="detail-label">Nombre</span><span>{{ p.name }}</span></div>
+    <div class="detail-row"><span class="detail-label">Categoría</span><span>{{ p.category }}</span></div>
+    <div class="detail-row"><span class="detail-label">Stock actual</span><span>{{ p.currentStock }}</span></div>
+    <div class="detail-row"><span class="detail-label">Stock mínimo</span><span>{{ p.minStock }}</span></div>
+    <div class="detail-row"><span class="detail-label">Precio</span><span>{{ p.unitPrice | currency }}</span></div>
+    <div class="detail-row"><span class="detail-label">Estado</span><span><app-stock-badge [currentStock]="p.currentStock" [minStock]="p.minStock" /></span></div>
+  </div>
+  <div class="dialog-footer" style="margin-top: 1rem;">
+    <p-button label="Cerrar" severity="secondary" (click)="onHide()" />
+    <p-button label="Registrar Movimiento" icon="pi pi-bolt" severity="warn" (click)="onRegisterMovement()" />
+  </div>
 </p-dialog>

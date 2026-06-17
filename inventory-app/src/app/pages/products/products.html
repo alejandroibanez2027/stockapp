@@ -52,12 +52,18 @@
     <span></span>
   }
 
-  <app-product-form-dialog [(visible)]="newProductDialog" />
+  @if (newProductDialog) {
+    <app-product-form-dialog (close)="newProductDialog = false" />
+  }
 
-  <app-product-detail-dialog 
-    [(visible)]="detailDialog" 
-    [product]="detailProduct" 
-    (registerMovement)="openMovementDialog($event)" />
+  @if (detailDialog && detailProduct) {
+    <app-product-detail-dialog
+      [product]="detailProduct"
+      (close)="detailDialog = false"
+      (registerMovement)="openMovementDialog($event)" />
+  }
 
-  <app-movement-dialog [(visible)]="movementDialog" [product]="movementProduct" />
+  @if (movementDialog && movementProduct) {
+    <app-movement-dialog [product]="movementProduct" (close)="movementDialog = false" />
+  }
 </div>

@@ -19,9 +19,8 @@ import { MovementRequest } from '../../../../shared/models/movement.model';
   styleUrls: ['./movement-dialog.scss'],
 })
 export class MovementDialog {
-  readonly visible = input(false);
-  readonly product = input<Product | null>(null);
-  readonly visibleChange = output<boolean>();
+  readonly product = input.required<Product>();
+  readonly close = output<void>();
 
   private readonly fb = inject(FormBuilder);
   private readonly movementService = inject(MovementService);
@@ -41,21 +40,15 @@ export class MovementDialog {
     reason: ['', Validators.required],
   });
 
-  onShow(): void {
-    this.form.reset({ type: 'IN', quantity: 1, reason: '' });
-  }
-
   onHide(): void {
-    this.visibleChange.emit(false);
+    this.close.emit();
   }
 
   submit(): void {
     if (this.form.invalid) return;
-    const p = this.product();
-    if (!p) return;
     this.saving.set(true);
     const request: MovementRequest = {
-      productId: p.productId,
+      productId: this.product().productId,
       type: this.form.value.type as 'IN' | 'OUT',
       quantity: this.form.value.quantity!,
       reason: this.form.value.reason!,
@@ -63,10 +56,9 @@ export class MovementDialog {
     this.movementService.save(request).subscribe({
       next: () => {
         this.messageService.add({ severity: 'success', summary: 'Movimiento registrado', detail: 'Stock actualizado', life: 3000 });
-        this.visibleChange.emit(false);
-        this.form.reset({ type: 'IN', quantity: 1, reason: '' });
         this.store.loadProducts();
         this.store.loadAlerts();
+        this.close.emit();
         this.saving.set(false);
       },
       error: () => this.saving.set(false),
