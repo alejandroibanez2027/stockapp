@@ -14,47 +14,51 @@
     }
   </div>
 
-  <p-panel header="Alertas de Stock" [toggleable]="true">
+  <div class="content-grid">
+    <p-panel header="Alertas de Stock" [toggleable]="true" styleClass="alerts-panel">
+      @if (store.alerts().length === 0) {
+        <p>No hay alertas activas.</p>
+      }
 
-    @if (store.alerts().length === 0) {
-      <p>No hay alertas activas.</p>
-    }
-
-    @for (alert of store.alerts(); track alert.productId) {
-      <div class="alert-item" [class.critical]="alert.severity === 'CRITICAL'">
-        <i [class]="'pi ' + (alert.severity === 'CRITICAL' ? 'pi-times-circle' : 'pi-exclamation-triangle')"
-           [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
-        <span class="alert-sku">{{ alert.sku }}</span>
-        <span class="alert-name">{{ alert.productName }}</span>
-        <span class="col-stock">
-          <span>{{ alert.currentStock }} / {{ alert.minStock }}</span>
-        </span>
-        <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
-               [value]="alert.severity" />
-      </div>
-    }
-  </p-panel>
-
-  @defer (on viewport) {
-    <p-panel header="Top 10 — Productos con Stock Bajo (no crítico)" class="low-stock-panel">
-      <div class="low-stock-header">
-        <span>SKU</span>
-        <span>Producto</span>
-        <span>STOCK / MÍN</span>
-      </div>
-      @for (p of store.lowStockProducts(); track p.productId) {
-        <div class="low-stock-item">
-          <span class="low-stock-sku">{{ p.sku }}</span>
-          <span class="low-stock-name">{{ p.name }}</span>
-          <span class="col-stock">{{ p.currentStock }} / {{ p.minStock }}</span>
+      @for (alert of store.alerts(); track alert.productId) {
+        <div class="alert-item" [class.critical]="alert.severity === 'CRITICAL'">
+          <i [class]="'pi ' + (alert.severity === 'CRITICAL' ? 'pi-times-circle' : 'pi-exclamation-triangle')"
+             [style.color]="alert.severity === 'CRITICAL' ? 'var(--red-500)' : 'var(--orange-500)'"></i>
+          <span class="alert-sku">{{ alert.sku }}</span>
+          <span class="alert-name">{{ alert.productName }}</span>
+          <span class="col-stock">
+            <span>{{ alert.currentStock }} / {{ alert.minStock }}</span>
+          </span>
+          <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
+                 [value]="alert.severity" />
         </div>
       }
     </p-panel>
-  } @placeholder {
-    <p-skeleton height="200px" />
-  } @loading {
-    <div class="spinner-container"><i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i></div>
-  } @error {
-    <p-panel header="Stock Bajo"><p>Error al cargar.</p></p-panel>
-  }
+
+    <p-panel header="Registrar Movimiento" class="movement-panel">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="movement-form">
+        <div class="field">
+          <label>Producto</label>
+          <p-select formControlName="product" [options]="allProducts()" optionLabel="name"
+                    [filter]="true" filterBy="name" placeholder="Buscar producto..."
+                    styleClass="w-full" />
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <p-selectButton [options]="movementTypes" formControlName="type"
+                          optionLabel="label" optionValue="value" />
+        </div>
+        <div class="field">
+          <label>Cantidad</label>
+          <p-inputNumber formControlName="quantity" [min]="1" styleClass="w-full" />
+        </div>
+        <div class="field">
+          <label>Razón</label>
+          <textarea pTextarea formControlName="reason" rows="2" class="w-full"></textarea>
+        </div>
+        <p-button type="submit" label="Guardar Movimiento" icon="pi pi-save"
+                  [disabled]="form.invalid || saving()" [loading]="saving()" styleClass="w-full" />
+      </form>
+    </p-panel>
+  </div>
 </div>
