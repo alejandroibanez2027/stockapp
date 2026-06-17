@@ -34,10 +34,10 @@
         <td>{{ product.unitPrice | currency }}</td>
         <td>
           <div class="actions">
-            <p-button icon="pi pi-eye" severity="info" pTooltip="Ver detalle" (click)="showDetail(product)" />
-            <p-button icon="pi pi-bolt" severity="warn" pTooltip="Registrar movimiento" (click)="openMovementDialog(product)" />
-            <p-button icon="pi pi-list" severity="secondary" pTooltip="Ver historial"
-                      (click)="showHistory(product); historyTriggerEl.click()" [badge]="' '"/>
+            <p-button icon="pi pi-eye"  severity="info" [rounded]="true" [text]="true" pTooltip="Ver detalle" (click)="showDetail(product)" />
+            <p-button icon="pi pi-bolt" severity="info" [rounded]="true" [text]="true" pTooltip="Registrar movimiento" (click)="openMovementDialog(product)" />
+            <p-button icon="pi pi-list" severity="info" [rounded]="true" [text]="true" pTooltip="Ver historial"
+                      (click)="showHistory(product); historyTriggerEl.click()"/>
           </div>
         </td>
       </tr>

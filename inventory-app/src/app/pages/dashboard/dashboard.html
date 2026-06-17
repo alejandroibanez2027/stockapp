@@ -27,7 +27,6 @@
         <span class="alert-sku">{{ alert.sku }}</span>
         <span class="alert-name">{{ alert.productName }}</span>
         <span class="col-stock">
-          <small>STOCK / MÍN</small>
           <span>{{ alert.currentStock }} / {{ alert.minStock }}</span>
         </span>
         <p-tag [severity]="alert.severity === 'CRITICAL' ? 'danger' : 'warn'"
