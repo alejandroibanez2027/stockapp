@@ -47,7 +47,9 @@
   <!-- Carga diferida de historial -->
   <div #historyTriggerEl style="display:none"></div>
   @defer (on interaction(historyTriggerEl)) {
-    <app-history-dialog [(visible)]="historyDialog" [product]="selectedForHistory" />
+    @if (historyDialog && selectedForHistory) {
+      <app-history-dialog [product]="selectedForHistory" (close)="historyDialog = false" />
+    }
   } @placeholder {
     <span></span>
   }

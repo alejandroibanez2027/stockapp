@@ -1,4 +1,4 @@
-<p-dialog [header]="'Historial - ' + product()?.name" [visible]="visible()" [modal]="true" styleClass="w-35rem" (onShow)="onShow()" (onHide)="onHide()">
+<p-dialog [header]="'Historial - ' + product().name" [visible]="true" [modal]="true" styleClass="w-35rem" (onHide)="onHide()">
   @if (loading) {
     <p-skeleton height="100px" />
   } @else {
